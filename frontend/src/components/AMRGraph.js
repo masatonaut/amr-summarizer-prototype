@@ -57,14 +57,7 @@ const AMRGraph = ({ amrText }) => {
   };
 
   return (
-    <div
-      style={{
-        width: "90%",
-        height: "600px",
-        margin: "0 auto",
-        border: "1px solid #ccc",
-      }}
-    >
+    <div style={{ width: "100%", height: "400px", border: "1px solid #ccc" }}>
       <Network graph={graph} options={options} events={events} />
     </div>
   );

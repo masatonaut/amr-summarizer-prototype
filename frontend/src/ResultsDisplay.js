@@ -27,7 +27,7 @@ const ResultsDisplay = () => {
         AMR Parsing Results
       </Typography>
 
-      {/* Summary AMR Section */}
+      {/* Summary AMR */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h5" gutterBottom>
           Summary AMR
@@ -35,7 +35,7 @@ const ResultsDisplay = () => {
         <AMRGraph amrText={amrData.summary_amr} />
       </Box>
 
-      {/* Top Sentence AMRs Section */}
+      {/* Top Sentence AMRs */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h5" gutterBottom>
           Top Sentence AMRs
