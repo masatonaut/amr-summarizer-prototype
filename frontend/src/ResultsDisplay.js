@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link as RouterLink } from "react-router-dom";
+import { Box, Typography, Link } from "@mui/material";
 import AMRGraph from "./components/AMRGraph";
 
 const ResultsDisplay = () => {
@@ -8,34 +9,50 @@ const ResultsDisplay = () => {
 
   if (!amrData) {
     return (
-      <div>
-        <h2>No results to display.</h2>
-        <Link to="/">Back to Input</Link>
-      </div>
+      <Box sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2 }}>
+        <Typography variant="h5" align="center" gutterBottom>
+          No results to display.
+        </Typography>
+        <Link component={RouterLink} to="/" variant="body1">
+          Back to Input
+        </Link>
+      </Box>
     );
   }
 
   return (
-    <div>
-      <h2>AMR Parsing Results</h2>
+    <Box sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        AMR Parsing Results
+      </Typography>
 
-      <section>
-        <h3>Summary AMR</h3>
+      {/* Summary AMR Section */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Summary AMR
+        </Typography>
         <AMRGraph amrText={amrData.summary_amr} />
-      </section>
+      </Box>
 
-      <section>
-        <h3>Top Sentence AMRs</h3>
+      {/* Top Sentence AMRs Section */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Top Sentence AMRs
+        </Typography>
         {Object.entries(amrData.top_sentence_amrs).map(([sentence, amr]) => (
-          <div key={sentence} style={{ marginBottom: "1rem" }}>
-            <h4>{sentence}</h4>
+          <Box key={sentence} sx={{ mb: 3 }}>
+            <Typography variant="subtitle1" gutterBottom>
+              {sentence}
+            </Typography>
             <AMRGraph amrText={amr} />
-          </div>
+          </Box>
         ))}
-      </section>
+      </Box>
 
-      <Link to="/">Back to Input</Link>
-    </div>
+      <Link component={RouterLink} to="/" variant="body1">
+        Back to Input
+      </Link>
+    </Box>
   );
 };
 
