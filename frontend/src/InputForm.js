@@ -1,7 +1,6 @@
 // frontend/src/InputForm.js
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const InputForm = () => {
   const [summary, setSummary] = useState("");

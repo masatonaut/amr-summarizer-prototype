@@ -1,7 +1,6 @@
 // frontend/src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useNavigate, useLocation, Link } from "react-router-dom";
 import InputForm from "./InputForm";
 import ResultsDisplay from "./ResultsDisplay";
 import "./App.css";

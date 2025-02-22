@@ -1,10 +1,8 @@
-// frontend/src/ResultsDisplay.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import AMRGraph from "./components/AMRGraph";
 
 const ResultsDisplay = () => {
-  // Retrieve the AMR data passed via React Router state
   const location = useLocation();
   const { amrData } = location.state || {};
 
@@ -23,7 +21,7 @@ const ResultsDisplay = () => {
 
       <section>
         <h3>Summary AMR</h3>
-        <pre>{amrData.summary_amr}</pre>
+        <AMRGraph amrText={amrData.summary_amr} />
       </section>
 
       <section>
@@ -31,7 +29,7 @@ const ResultsDisplay = () => {
         {Object.entries(amrData.top_sentence_amrs).map(([sentence, amr]) => (
           <div key={sentence} style={{ marginBottom: "1rem" }}>
             <h4>{sentence}</h4>
-            <pre>{amr}</pre>
+            <AMRGraph amrText={amr} />
           </div>
         ))}
       </section>
