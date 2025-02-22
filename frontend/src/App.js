@@ -1,19 +1,20 @@
-import React from 'react';
-import './App.css';
-import InputForm from './InputForm';
+// frontend/src/App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import InputForm from "./InputForm";
+import ResultsDisplay from "./ResultsDisplay";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>AMR Summarizer Prototype</h1>
-      </header>
-      <main>
-        <InputForm />
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<InputForm />} />
+        <Route path="/results" element={<ResultsDisplay />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
-

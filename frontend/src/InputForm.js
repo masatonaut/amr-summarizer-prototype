@@ -1,40 +1,45 @@
+// frontend/src/InputForm.js
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
-function InputForm() {
+const InputForm = () => {
   const [summary, setSummary] = useState("");
   const [article, setArticle] = useState("");
-  const [responseData, setResponseData] = useState(null);
   const [error, setError] = useState(null);
-
-  // Read the API URL from your .env file
-  const API_BASE_URL = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_URL}/process_text`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ summary, article }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/process_amr`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ summary, article }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      setResponseData(data);
+
+      const amrData = await response.json();
+      // Navigate to the results page and pass the AMR data via state
+      navigate("/results", { state: { amrData } });
     } catch (err) {
       console.error("Error:", err);
-      setError("Error sending data to the server");
+      setError("Error processing your request.");
     }
   };
 
   return (
     <div>
-      <h2>Submit Text Data</h2>
+      <h2>Enter Your Text</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Summary:</label>
@@ -58,21 +63,9 @@ function InputForm() {
         </div>
         <button type="submit">Submit</button>
       </form>
-
       {error && <p style={{ color: "red" }}>{error}</p>}
-      {responseData && (
-        <div>
-          <h3>Response:</h3>
-          <p>
-            <strong>Summary:</strong> {responseData.received_summary}
-          </p>
-          <p>
-            <strong>Article:</strong> {responseData.received_article}
-          </p>
-        </div>
-      )}
     </div>
   );
-}
+};
 
 export default InputForm;
