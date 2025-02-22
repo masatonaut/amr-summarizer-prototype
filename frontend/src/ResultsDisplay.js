@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation, Link as RouterLink } from "react-router-dom";
 import { Box, Typography, Link } from "@mui/material";
+import PageLayout from "./components/PageLayout";
 import AMRGraph from "./components/AMRGraph";
 
 const ResultsDisplay = () => {
@@ -9,19 +10,19 @@ const ResultsDisplay = () => {
 
   if (!amrData) {
     return (
-      <Box sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2 }}>
+      <PageLayout>
         <Typography variant="h5" align="center" gutterBottom>
           No results to display.
         </Typography>
         <Link component={RouterLink} to="/" variant="body1">
           Back to Input
         </Link>
-      </Box>
+      </PageLayout>
     );
   }
 
   return (
-    <Box sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2 }}>
+    <PageLayout>
       <Typography variant="h4" align="center" gutterBottom>
         AMR Parsing Results
       </Typography>
@@ -52,7 +53,7 @@ const ResultsDisplay = () => {
       <Link component={RouterLink} to="/" variant="body1">
         Back to Input
       </Link>
-    </Box>
+    </PageLayout>
   );
 };
 

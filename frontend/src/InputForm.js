@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography } from "@mui/material";
+import PageLayout from "./components/PageLayout";
 
 const InputForm = () => {
   const [summary, setSummary] = useState("");
@@ -16,9 +17,7 @@ const InputForm = () => {
         `${process.env.REACT_APP_API_URL}/process_amr`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ summary, article }),
         }
       );
@@ -28,7 +27,6 @@ const InputForm = () => {
       }
 
       const amrData = await response.json();
-      // Navigate to the results page and pass the AMR data via state
       navigate("/results", { state: { amrData } });
     } catch (err) {
       console.error("Error:", err);
@@ -37,10 +35,11 @@ const InputForm = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2 }}>
+    <PageLayout>
       <Typography variant="h4" align="center" gutterBottom>
         Enter Your Text
       </Typography>
+
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -62,16 +61,22 @@ const InputForm = () => {
           value={article}
           onChange={(e) => setArticle(e.target.value)}
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          sx={{ alignSelf: "flex-start" }}
+        >
           Submit
         </Button>
       </Box>
+
       {error && (
         <Typography variant="body1" color="error" align="center" sx={{ mt: 2 }}>
           {error}
         </Typography>
       )}
-    </Box>
+    </PageLayout>
   );
 };
 
