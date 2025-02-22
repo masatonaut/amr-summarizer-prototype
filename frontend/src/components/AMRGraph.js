@@ -3,32 +3,52 @@ import Network from "react-vis-network-graph";
 import { amrToGraph } from "../utils/amrToGraph";
 
 const AMRGraph = ({ amrText }) => {
-  // Convert AMR text into nodes and edges using your utility function.
   const { nodes, edges } = amrToGraph(amrText);
 
-  // Create a graph object in the format expected by react-vis-network-graph.
-  const graph = {
-    nodes: nodes,
-    edges: edges,
-  };
+  const graph = { nodes, edges };
 
-  // Options for the network graph. Adjust as needed.
   const options = {
     layout: {
-      hierarchical: false,
-    },
-    edges: {
-      color: "#000000",
-      arrows: {
-        to: { enabled: true },
+      hierarchical: {
+        enabled: false,
       },
     },
     physics: {
       enabled: true,
+      stabilization: {
+        iterations: 150,
+      },
+      barnesHut: {
+        gravitationalConstant: -20000,
+        springConstant: 0.04,
+        springLength: 95,
+      },
+    },
+    nodes: {
+      shape: "ellipse",
+      color: {
+        background: "#cef",
+        border: "#00f",
+      },
+      font: {
+        size: 14,
+        face: "Arial",
+        color: "#333",
+      },
+    },
+    edges: {
+      arrows: { to: { enabled: true, scaleFactor: 1 } },
+      color: "#333",
+      font: {
+        size: 12,
+        face: "Arial",
+        color: "#555",
+        strokeWidth: 0,
+      },
+      smooth: false,
     },
   };
 
-  // Optional event handlers (e.g., for selection)
   const events = {
     select: ({ nodes, edges }) => {
       console.log("Selected nodes:", nodes);
@@ -37,7 +57,14 @@ const AMRGraph = ({ amrText }) => {
   };
 
   return (
-    <div style={{ height: "400px", border: "1px solid #ccc" }}>
+    <div
+      style={{
+        width: "90%",
+        height: "600px",
+        margin: "0 auto",
+        border: "1px solid #ccc",
+      }}
+    >
       <Network graph={graph} options={options} events={events} />
     </div>
   );
