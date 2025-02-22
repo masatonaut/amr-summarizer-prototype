@@ -1,6 +1,6 @@
-// frontend/src/InputForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Box, TextField, Button, Typography } from "@mui/material";
 
 const InputForm = () => {
   const [summary, setSummary] = useState("");
@@ -37,33 +37,41 @@ const InputForm = () => {
   };
 
   return (
-    <div>
-      <h2>Enter Your Text</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Summary:</label>
-          <br />
-          <textarea
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            rows="4"
-            cols="50"
-          />
-        </div>
-        <div>
-          <label>Article:</label>
-          <br />
-          <textarea
-            value={article}
-            onChange={(e) => setArticle(e.target.value)}
-            rows="8"
-            cols="50"
-          />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+    <Box sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Enter Your Text
+      </Typography>
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+      >
+        <TextField
+          label="Summary"
+          variant="outlined"
+          multiline
+          rows={4}
+          value={summary}
+          onChange={(e) => setSummary(e.target.value)}
+        />
+        <TextField
+          label="Article"
+          variant="outlined"
+          multiline
+          rows={8}
+          value={article}
+          onChange={(e) => setArticle(e.target.value)}
+        />
+        <Button type="submit" variant="contained" color="primary">
+          Submit
+        </Button>
+      </Box>
+      {error && (
+        <Typography variant="body1" color="error" align="center" sx={{ mt: 2 }}>
+          {error}
+        </Typography>
+      )}
+    </Box>
   );
 };
 
