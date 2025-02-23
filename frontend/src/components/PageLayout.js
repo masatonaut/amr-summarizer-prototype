@@ -5,7 +5,7 @@ const PageLayout = ({ children }) => {
   return (
     <Box
       sx={{
-        maxWidth: 800,
+        maxWidth: { xs: "100%", sm: 600, md: 800 },
         mx: "auto",
         mt: 4,
         p: 2,

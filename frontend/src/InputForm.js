@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 import PageLayout from "./components/PageLayout";
 
 const MAX_SUMMARY_LENGTH = 2000;
@@ -10,13 +16,14 @@ const InputForm = () => {
   const [summary, setSummary] = useState("");
   const [article, setArticle] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
-    // Client-side input validation: trim whitespace and check for emptiness
+    // Client-side input validation: trim whitespace and check for emptiness.
     const summaryClean = summary.trim();
     const articleClean = article.trim();
     if (!summaryClean || !articleClean) {
@@ -32,6 +39,7 @@ const InputForm = () => {
       return;
     }
 
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/process_amr`,
@@ -51,12 +59,13 @@ const InputForm = () => {
       }
 
       const amrData = await response.json();
-      // Navigate to the results page and pass the AMR data via state
+      // Navigate to the results page and pass the AMR data via state.
       navigate("/results", { state: { amrData } });
     } catch (err) {
       console.error("Error:", err);
       setError(err.message || "Error processing your request.");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -86,14 +95,17 @@ const InputForm = () => {
           value={article}
           onChange={(e) => setArticle(e.target.value)}
         />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{ alignSelf: "flex-start" }}
-        >
-          Submit
-        </Button>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={isLoading}
+          >
+            Submit
+          </Button>
+          {isLoading && <CircularProgress size={24} />}
+        </Box>
       </Box>
 
       {error && (
