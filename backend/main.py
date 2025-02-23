@@ -23,6 +23,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Define maximum allowed lengths for input validation
+MAX_SUMMARY_LENGTH = 2000
+MAX_ARTICLE_LENGTH = 10000
+
 @app.post("/process_article", response_model=Dict)
 def process_article(input_data: TextInput):
     """
@@ -34,22 +38,30 @@ def process_article(input_data: TextInput):
         - "top_sentences": The selected top sentences.
         - "similarity_scores": Their corresponding cosine similarity scores.
     """
-    # Validate input: summary and article must not be empty
-    if not input_data.summary.strip():
-        raise HTTPException(status_code=400, detail="Summary is required.")
-    if not input_data.article.strip():
-        raise HTTPException(status_code=400, detail="Article is required.")
+    # Trim whitespace and validate inputs
+    summary_clean = input_data.summary.strip()
+    article_clean = input_data.article.strip()
     
-    # Segment the article into sentences
-    sentences = segment_sentences(input_data.article)
+    if not summary_clean:
+        raise HTTPException(status_code=400, detail="Summary is required.")
+    if not article_clean:
+        raise HTTPException(status_code=400, detail="Article is required.")
+    if len(summary_clean) > MAX_SUMMARY_LENGTH:
+        raise HTTPException(status_code=400, detail="Summary is too long.")
+    if len(article_clean) > MAX_ARTICLE_LENGTH:
+        raise HTTPException(status_code=400, detail="Article is too long.")
+    
+    # Simulate a backend error for testing purposes
+    if summary_clean.lower() == "simulate error" or article_clean.lower() == "simulate error":
+        raise HTTPException(status_code=500, detail="Simulated backend error for testing.")
+    
+    # Process the article
+    sentences = segment_sentences(article_clean)
     if not sentences:
         raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
     
-    # Compute embeddings for the summary and article sentences
-    summary_embedding = get_embeddings([input_data.summary])[0]
+    summary_embedding = get_embeddings([summary_clean])[0]
     sentence_embeddings = get_embeddings(sentences)
-    
-    # Select the top 3 sentences based on cosine similarity
     top_sentences, scores = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
     
     return {
@@ -73,25 +85,36 @@ def process_amr(input_data: TextInput):
         - "summary_amr": The AMR graph for the summary.
         - "top_sentence_amrs": A dictionary mapping each top sentence to its AMR graph.
     """
-    # Validate input
-    if not input_data.summary.strip():
+    # Trim whitespace and validate inputs
+    summary_clean = input_data.summary.strip()
+    article_clean = input_data.article.strip()
+    
+    if not summary_clean:
         raise HTTPException(status_code=400, detail="Summary is required.")
-    if not input_data.article.strip():
+    if not article_clean:
         raise HTTPException(status_code=400, detail="Article is required.")
+    if len(summary_clean) > MAX_SUMMARY_LENGTH:
+        raise HTTPException(status_code=400, detail="Summary is too long.")
+    if len(article_clean) > MAX_ARTICLE_LENGTH:
+        raise HTTPException(status_code=400, detail="Article is too long.")
+    
+    # Simulate a backend error for testing purposes
+    if summary_clean.lower() == "simulate error" or article_clean.lower() == "simulate error":
+        raise HTTPException(status_code=500, detail="Simulated backend error for testing.")
     
     # Step 1: Segment the article into sentences
-    sentences = segment_sentences(input_data.article)
+    sentences = segment_sentences(article_clean)
     if not sentences:
         raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
     
     # Step 2: Compute embeddings and select top sentences
-    summary_embedding = get_embeddings([input_data.summary])[0]
+    summary_embedding = get_embeddings([summary_clean])[0]
     sentence_embeddings = get_embeddings(sentences)
     top_sentences, _ = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
     
     # Step 3: Parse AMR for the summary and each top sentence
     try:
-        summary_amr = parse_amr(input_data.summary)
+        summary_amr = parse_amr(summary_clean)
         top_sentence_amrs = {sentence: parse_amr(sentence) for sentence in top_sentences}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AMR parsing failed: {str(e)}")

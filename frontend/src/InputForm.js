@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography } from "@mui/material";
 import PageLayout from "./components/PageLayout";
 
+const MAX_SUMMARY_LENGTH = 2000;
+const MAX_ARTICLE_LENGTH = 10000;
+
 const InputForm = () => {
   const [summary, setSummary] = useState("");
   const [article, setArticle] = useState("");
@@ -13,9 +16,19 @@ const InputForm = () => {
     e.preventDefault();
     setError(null);
 
-    // Client-side input validation: Ensure both fields are filled in
-    if (!summary.trim() || !article.trim()) {
+    // Client-side input validation: trim whitespace and check for emptiness
+    const summaryClean = summary.trim();
+    const articleClean = article.trim();
+    if (!summaryClean || !articleClean) {
       setError("Both Summary and Article are required.");
+      return;
+    }
+    if (summaryClean.length > MAX_SUMMARY_LENGTH) {
+      setError("Summary is too long. Please reduce your input.");
+      return;
+    }
+    if (articleClean.length > MAX_ARTICLE_LENGTH) {
+      setError("Article is too long. Please reduce your input.");
       return;
     }
 
@@ -25,12 +38,14 @@ const InputForm = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ summary, article }),
+          body: JSON.stringify({
+            summary: summaryClean,
+            article: articleClean,
+          }),
         }
       );
 
       if (!response.ok) {
-        // Extract error message from the response, if available
         const errorData = await response.json();
         throw new Error(errorData.detail || "Network response was not ok");
       }
