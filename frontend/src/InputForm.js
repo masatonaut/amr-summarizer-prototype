@@ -54,8 +54,14 @@ const InputForm = () => {
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Network response was not ok");
+        let errorMessage = "Network response was not ok";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorMessage;
+        } catch (parseError) {
+          console.error("Error parsing JSON from error response:", parseError);
+        }
+        throw new Error(errorMessage);
       }
 
       const amrData = await response.json();
