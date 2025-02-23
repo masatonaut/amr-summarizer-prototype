@@ -12,6 +12,13 @@ const InputForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    // Client-side input validation: Ensure both fields are filled in
+    if (!summary.trim() || !article.trim()) {
+      setError("Both Summary and Article are required.");
+      return;
+    }
+
     try {
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/process_amr`,
@@ -23,14 +30,17 @@ const InputForm = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        // Extract error message from the response, if available
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Network response was not ok");
       }
 
       const amrData = await response.json();
+      // Navigate to the results page and pass the AMR data via state
       navigate("/results", { state: { amrData } });
     } catch (err) {
       console.error("Error:", err);
-      setError("Error processing your request.");
+      setError(err.message || "Error processing your request.");
     }
   };
 

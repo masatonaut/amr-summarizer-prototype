@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 from models import TextInput
@@ -34,12 +34,22 @@ def process_article(input_data: TextInput):
         - "top_sentences": The selected top sentences.
         - "similarity_scores": Their corresponding cosine similarity scores.
     """
+    # Validate input: summary and article must not be empty
+    if not input_data.summary.strip():
+        raise HTTPException(status_code=400, detail="Summary is required.")
+    if not input_data.article.strip():
+        raise HTTPException(status_code=400, detail="Article is required.")
+    
+    # Segment the article into sentences
     sentences = segment_sentences(input_data.article)
     if not sentences:
-        return {"error": "No sentences found in the article."}
+        raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
     
+    # Compute embeddings for the summary and article sentences
     summary_embedding = get_embeddings([input_data.summary])[0]
     sentence_embeddings = get_embeddings(sentences)
+    
+    # Select the top 3 sentences based on cosine similarity
     top_sentences, scores = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
     
     return {
@@ -63,10 +73,16 @@ def process_amr(input_data: TextInput):
         - "summary_amr": The AMR graph for the summary.
         - "top_sentence_amrs": A dictionary mapping each top sentence to its AMR graph.
     """
-    # Step 1: Segment the article
+    # Validate input
+    if not input_data.summary.strip():
+        raise HTTPException(status_code=400, detail="Summary is required.")
+    if not input_data.article.strip():
+        raise HTTPException(status_code=400, detail="Article is required.")
+    
+    # Step 1: Segment the article into sentences
     sentences = segment_sentences(input_data.article)
     if not sentences:
-        return {"error": "No sentences found in the article."}
+        raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
     
     # Step 2: Compute embeddings and select top sentences
     summary_embedding = get_embeddings([input_data.summary])[0]
@@ -74,8 +90,11 @@ def process_amr(input_data: TextInput):
     top_sentences, _ = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
     
     # Step 3: Parse AMR for the summary and each top sentence
-    summary_amr = parse_amr(input_data.summary)
-    top_sentence_amrs = {sentence: parse_amr(sentence) for sentence in top_sentences}
+    try:
+        summary_amr = parse_amr(input_data.summary)
+        top_sentence_amrs = {sentence: parse_amr(sentence) for sentence in top_sentences}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AMR parsing failed: {str(e)}")
     
     return {
         "summary_amr": summary_amr,
