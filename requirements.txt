@@ -1,3 +1,4 @@
+requests==2.32.3
 amrlib @ git+https://github.com/bjascob/amrlib.git@bf81b587ea7b0bbf1300d62f00056940b98b3d1d
 annotated-types==0.7.0
 anyio==4.8.0
@@ -72,7 +73,6 @@ python-dotenv==1.0.1
 python-multipart==0.0.20
 PyYAML==6.0.2
 regex==2024.11.6
-requests==2.32.3
 rich==13.9.4
 rich-toolkit==0.13.2
 safetensors==0.5.2
