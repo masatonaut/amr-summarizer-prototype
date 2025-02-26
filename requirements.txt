@@ -1,6 +1,5 @@
 requests==2.32.3
 tqdm==4.64.0
-amrlib @ git+https://github.com/bjascob/amrlib.git@bf81b587ea7b0bbf1300d62f00056940b98b3d1d
 annotated-types==0.7.0
 anyio==4.8.0
 astroid==3.3.8
@@ -111,3 +110,4 @@ weasel==0.4.1
 websockets==15.0
 wheel==0.45.1
 wrapt==1.17.2
+amrlib @ git+https://github.com/bjascob/amrlib.git@bf81b587ea7b0bbf1300d62f00056940b98b3d1d
