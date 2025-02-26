@@ -1,4 +1,5 @@
 requests==2.32.3
+tqdm==4.64.0
 amrlib @ git+https://github.com/bjascob/amrlib.git@bf81b587ea7b0bbf1300d62f00056940b98b3d1d
 annotated-types==0.7.0
 anyio==4.8.0
@@ -95,7 +96,6 @@ threadpoolctl==3.5.0
 tokenizers==0.21.0
 tomlkit==0.13.2
 torch==2.6.0
-tqdm==4.64.0
 transformers==4.49.0
 triton==3.2.0
 typer==0.15.1
