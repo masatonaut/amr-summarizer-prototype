@@ -15,6 +15,7 @@ origins = [
     "http://localhost:3000",
     "http://localhost:3001",
     "https://amr-summarizer-prototype.vercel.app/"
+    "https://amr-summarizer-prototype-bg1t0l3t1-masatos-projects-3a0222b3.vercel.app/"
 ]
 
 app.add_middleware(
@@ -25,10 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Optional root route to avoid 404 on the backend domain root
 @app.get("/")
 def read_root():
-    return {"message": "Hello from the backend!"}
+    return {"message": "Hello from the AMR Summarizer API!"}
 
 # Define maximum allowed lengths for input validation
 MAX_SUMMARY_LENGTH = 2000
