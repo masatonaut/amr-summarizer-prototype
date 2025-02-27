@@ -1,7 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "https://github.com/masatonaut/amr-summarizer-prototype",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",
