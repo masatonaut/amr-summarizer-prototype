@@ -14,8 +14,7 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "http://localhost:3001",
-    "https://amr-summarizer-prototype.vercel.app/"
-    "https://amr-summarizer-prototype-bg1t0l3t1-masatos-projects-3a0222b3.vercel.app/"
+    "https://amr-summarizer-prototype.netlify.app"
 ]
 
 app.add_middleware(
