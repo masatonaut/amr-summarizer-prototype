@@ -25,6 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/ping")
+def ping():
+    return {"message": "Pong!"}
+
 @app.get("/")
 def read_root():
     return {"message": "Hello from the AMR Summarizer API!"}
