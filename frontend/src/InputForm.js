@@ -42,10 +42,13 @@ const InputForm = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/process_amr`,
+        "https://amr-summarizer-prototype.onrender.com/process_amr",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
           body: JSON.stringify({
             summary: summaryClean,
             article: articleClean,
