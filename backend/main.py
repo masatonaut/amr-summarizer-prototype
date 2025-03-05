@@ -48,7 +48,7 @@ def process_article(input_data: TextInput):
         - "top_sentences": The selected top sentences.
         - "similarity_scores": Their corresponding cosine similarity scores.
     """
-    # Trim whitespace and validate inputs
+    # 1) Validate input
     summary_clean = input_data.summary.strip()
     article_clean = input_data.article.strip()
 
@@ -61,15 +61,16 @@ def process_article(input_data: TextInput):
     if len(article_clean) > MAX_ARTICLE_LENGTH:
         raise HTTPException(status_code=400, detail="Article is too long.")
 
-    # Simulate a backend error for testing purposes
+    # 2) Check for simulated error
     if summary_clean.lower() == "simulate error" or article_clean.lower() == "simulate error":
         raise HTTPException(status_code=500, detail="Simulated backend error for testing.")
 
-    # Process the article
+    # 3) Segment article into sentences
     sentences = segment_sentences(article_clean)
     if not sentences:
         raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
 
+    # 4) Compute embeddings and find top 3
     summary_embedding = get_embeddings([summary_clean])[0]
     sentence_embeddings = get_embeddings(sentences)
     top_sentences, scores = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
@@ -80,10 +81,10 @@ def process_article(input_data: TextInput):
     }
 
 @app.post("/process_amr", response_model=Dict)
-def process_amr(input_data: TextInput):
+def process_amr_endpoint(input_data: TextInput):
     """
     Process text by generating AMR graphs for the summary and the top sentences,
-    and converting them into SVG visualizations.
+    and convert them into SVG visualizations.
 
     Workflow:
       1. Segment the article into sentences.
@@ -96,7 +97,7 @@ def process_amr(input_data: TextInput):
         - "summary_amr": The SVG visualization of the AMR graph for the summary.
         - "top_sentence_amrs": A dictionary mapping each top sentence to its SVG visualization.
     """
-    # Trim whitespace and validate inputs
+    # 1) Validate input
     summary_clean = input_data.summary.strip()
     article_clean = input_data.article.strip()
 
@@ -109,26 +110,27 @@ def process_amr(input_data: TextInput):
     if len(article_clean) > MAX_ARTICLE_LENGTH:
         raise HTTPException(status_code=400, detail="Article is too long.")
 
-    # Simulate a backend error for testing purposes
+    # 2) Check for simulated error
     if summary_clean.lower() == "simulate error" or article_clean.lower() == "simulate error":
         raise HTTPException(status_code=500, detail="Simulated backend error for testing.")
 
-    # Step 1: Segment the article into sentences
+    # 3) Segment the article into sentences
     sentences = segment_sentences(article_clean)
     if not sentences:
         raise HTTPException(status_code=400, detail="No valid sentences found in the article.")
 
-    # Step 2: Compute embeddings and select top sentences
+    # 4) Compute embeddings and find top 3
     summary_embedding = get_embeddings([summary_clean])[0]
     sentence_embeddings = get_embeddings(sentences)
     top_sentences, _ = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
 
-    # Step 3: Parse AMR for the summary and each top sentence, then convert to SVG
+    # 5) Parse AMR for the summary and each top sentence, then convert to SVG
     try:
         summary_amr_raw = parse_amr(summary_clean)
-        top_sentence_amrs_raw = {sentence: parse_amr(sentence) for sentence in top_sentences}
+        top_sentence_amrs_raw = {s: parse_amr(s) for s in top_sentences}
+
         summary_amr_svg = amr_to_svg(summary_amr_raw)
-        top_sentence_amrs_svg = {sentence: amr_to_svg(amr) for sentence, amr in top_sentence_amrs_raw.items()}
+        top_sentence_amrs_svg = {s: amr_to_svg(amr) for s, amr in top_sentence_amrs_raw.items()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AMR parsing or visualization failed: {str(e)}")
 
