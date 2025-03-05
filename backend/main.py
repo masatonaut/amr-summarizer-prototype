@@ -2,12 +2,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 
-# Use relative imports so everything stays within the backend package
 from models import TextInput
 from pipeline import segment_sentences
 from embeddings import get_embeddings
 from similarity import top_k_sentences
-from amr_parser import parse_amr  # Import the AMR parsing function
+from amr_parser import parse_amr, amr_to_svg
 
 app = FastAPI()
 
@@ -83,18 +82,19 @@ def process_article(input_data: TextInput):
 @app.post("/process_amr", response_model=Dict)
 def process_amr(input_data: TextInput):
     """
-    Process text by generating AMR graphs for the summary and the top sentences.
+    Process text by generating AMR graphs for the summary and the top sentences,
+    and converting them into SVG visualizations.
 
     Workflow:
       1. Segment the article into sentences.
       2. Compute embeddings for the summary and sentences.
       3. Select the top 3 sentences based on cosine similarity.
-      4. Parse AMR graphs for the summary and each top sentence.
+      4. Parse AMR graphs for the summary and each top sentence, then convert them to SVG.
 
     Returns:
       A dictionary with:
-        - "summary_amr": The AMR graph for the summary.
-        - "top_sentence_amrs": A dictionary mapping each top sentence to its AMR graph.
+        - "summary_amr": The SVG visualization of the AMR graph for the summary.
+        - "top_sentence_amrs": A dictionary mapping each top sentence to its SVG visualization.
     """
     # Trim whitespace and validate inputs
     summary_clean = input_data.summary.strip()
@@ -123,14 +123,16 @@ def process_amr(input_data: TextInput):
     sentence_embeddings = get_embeddings(sentences)
     top_sentences, _ = top_k_sentences(summary_embedding, sentence_embeddings, sentences, k=3)
 
-    # Step 3: Parse AMR for the summary and each top sentence
+    # Step 3: Parse AMR for the summary and each top sentence, then convert to SVG
     try:
-        summary_amr = parse_amr(summary_clean)
-        top_sentence_amrs = {sentence: parse_amr(sentence) for sentence in top_sentences}
+        summary_amr_raw = parse_amr(summary_clean)
+        top_sentence_amrs_raw = {sentence: parse_amr(sentence) for sentence in top_sentences}
+        summary_amr_svg = amr_to_svg(summary_amr_raw)
+        top_sentence_amrs_svg = {sentence: amr_to_svg(amr) for sentence, amr in top_sentence_amrs_raw.items()}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AMR parsing failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"AMR parsing or visualization failed: {str(e)}")
 
     return {
-        "summary_amr": summary_amr,
-        "top_sentence_amrs": top_sentence_amrs
+        "summary_amr": summary_amr_svg,
+        "top_sentence_amrs": top_sentence_amrs_svg
     }
