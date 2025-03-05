@@ -1,3 +1,4 @@
+// frontend/src/InputForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -42,13 +43,10 @@ const InputForm = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        "https://amr-summarizer-prototype.onrender.com/process_amr",
+        `${process.env.REACT_APP_API_URL}/process_amr`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             summary: summaryClean,
             article: articleClean,
@@ -57,14 +55,8 @@ const InputForm = () => {
       );
 
       if (!response.ok) {
-        let errorMessage = "Network response was not ok";
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.detail || errorMessage;
-        } catch (parseError) {
-          console.error("Error parsing JSON from error response:", parseError);
-        }
-        throw new Error(errorMessage);
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Network response was not ok");
       }
 
       const amrData = await response.json();

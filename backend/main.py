@@ -3,11 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 
 # Use relative imports so everything stays within the backend package
-from .models import TextInput
-from .pipeline import segment_sentences
-from .embeddings import get_embeddings
-from .similarity import top_k_sentences
-from .amr_parser import parse_amr  # Import the AMR parsing function
+from models import TextInput
+from pipeline import segment_sentences
+from embeddings import get_embeddings
+from similarity import top_k_sentences
+from amr_parser import parse_amr  # Import the AMR parsing function
 
 app = FastAPI()
 
@@ -19,7 +19,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
