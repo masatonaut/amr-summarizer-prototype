@@ -1,4 +1,3 @@
-// frontend/src/InputForm.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,6 +9,7 @@ import {
 } from "@mui/material";
 import PageLayout from "./components/PageLayout";
 
+// Client-side max lengths to match your backend
 const MAX_SUMMARY_LENGTH = 2000;
 const MAX_ARTICLE_LENGTH = 10000;
 
@@ -24,7 +24,7 @@ const InputForm = () => {
     e.preventDefault();
     setError(null);
 
-    // Client-side input validation: trim whitespace and check for emptiness.
+    // Trim whitespace and check if fields are empty
     const summaryClean = summary.trim();
     const articleClean = article.trim();
     if (!summaryClean || !articleClean) {
@@ -42,6 +42,7 @@ const InputForm = () => {
 
     setIsLoading(true);
     try {
+      // Make a POST request to your FastAPI endpoint
       const response = await fetch(
         `${process.env.REACT_APP_API_URL}/process_amr`,
         {
@@ -59,8 +60,10 @@ const InputForm = () => {
         throw new Error(errorData.detail || "Network response was not ok");
       }
 
+      // The server should return an object with summary_svg, top_sentence_svgs, etc.
       const amrData = await response.json();
-      // Navigate to the results page and pass the AMR data via state.
+
+      // Navigate to /results and pass the amrData via state
       navigate("/results", { state: { amrData } });
     } catch (err) {
       console.error("Error:", err);
@@ -75,6 +78,7 @@ const InputForm = () => {
         Enter Your Text
       </Typography>
 
+      {/* The form for summary and article */}
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -88,6 +92,7 @@ const InputForm = () => {
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
         />
+
         <TextField
           label="Article"
           variant="outlined"
@@ -96,6 +101,7 @@ const InputForm = () => {
           value={article}
           onChange={(e) => setArticle(e.target.value)}
         />
+
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Button
             type="submit"
