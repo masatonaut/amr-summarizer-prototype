@@ -17,7 +17,7 @@ def parse_amr(text: str) -> str:
         str: The raw AMR string in Penman notation.
     """
     # Load the default stog model (this may take time on the first call)
-    stog = amrlib.load_stog_model()
+    stog = amrlib.load_stog_model(model_dir="/mnt/idms/home/botondbarta/models/model_parse_xfm_bart_large-v0_1_0")
     graphs = stog.parse_sents([text])
     stog.model.to('cpu')
     del stog
