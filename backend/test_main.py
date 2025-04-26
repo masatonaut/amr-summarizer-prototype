@@ -3,13 +3,14 @@ from main import app
 
 client = TestClient(app)
 
+
 def test_process_article():
     response = client.post(
         "/process_article",
         json={
             "summary": "Test summary",
-            "article": "Sentence one. Sentence two. Sentence three. Sentence four."
-        }
+            "article": "Sentence one. Sentence two. Sentence three. Sentence four.",
+        },
     )
     assert response.status_code == 200
     data = response.json()
@@ -19,13 +20,14 @@ def test_process_article():
     # Optionally, verify there are exactly three top sentences
     assert len(data["top_sentences"]) == 3
 
+
 def test_process_amr():
     response = client.post(
         "/process_amr",
         json={
             "summary": "Test summary",
-            "article": "Sentence one. Sentence two. Sentence three. Sentence four."
-        }
+            "article": "Sentence one. Sentence two. Sentence three. Sentence four.",
+        },
     )
     assert response.status_code == 200
     data = response.json()

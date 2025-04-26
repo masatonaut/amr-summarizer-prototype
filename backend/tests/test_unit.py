@@ -1,4 +1,5 @@
 import os, sys
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import numpy as np
@@ -8,6 +9,7 @@ from pipeline import segment_sentences
 from similarity import top_k_sentences
 from amr_parser import parse_amr
 
+
 def test_segment_sentences_basic():
     """
     Unit test: segment_sentences should split text into individual sentences.
@@ -15,6 +17,7 @@ def test_segment_sentences_basic():
     text = "Hello world. This is a test."
     expected = ["Hello world.", "This is a test."]
     assert segment_sentences(text) == expected
+
 
 def test_top_k_sentences_simple_sorting():
     """
@@ -34,6 +37,7 @@ def test_top_k_sentences_simple_sorting():
     assert top_sents == ["A", "C"]
     # Check the highest score is approximately 1.0
     assert pytest.approx(scores[0], rel=1e-3) == 1.0
+
 
 def test_parse_amr_contains_buy():
     """
