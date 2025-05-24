@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AMR Compare</title>
+    <style>
+      body {
+        display: flex;
+        gap: 1rem;
+        font-family: sans-serif;
+      }
+      .graph {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+      }
+      .graph h2 {
+        text-align: center;
+      }
+      /* make the embedded SVG scale to fit */
+      .graph img,
+      .graph object {
+        width: 400px;
+        height: auto;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="graph">
+      <h2>Graph 1</h2>
+      <!-- Option 1: <img> -->
+      <img src="sample1.svg" alt="Graph 1 SVG" />
+      <!-- Option 2: <object>
+    <object type="image/svg+xml" data="sample1.svg"></object>
+    --></div>
+
+    <div class="graph">
+      <h2>Graph 2</h2>
+      <img src="sample2.svg" alt="Graph 2 SVG" />
+    </div>
+  </body>
+</html>

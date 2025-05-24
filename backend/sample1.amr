@@ -1,0 +1,3 @@
+(m / man
+   :ARG0-of (l / love-01
+               :ARG1 (w / woman)))
