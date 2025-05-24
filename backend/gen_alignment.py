@@ -14,20 +14,16 @@ match, status, alignment = measure.process_pair(s1, s2)
 
 # 4) extract an “interpretable” mapping: list of (node1,node2) pairs
 node_map = measure.graph_aligner._interpretable_mapping(
-    alignment, 
+    alignment,
     *measure.graph_pair_preparer.prepare_get_vars(
-        *measure.graph_standardizer.standardize(
-            *measure.graph_reader.string2graph(s1)
-        ),
-        *measure.graph_standardizer.standardize(
-            *measure.graph_reader.string2graph(s2)
-        )
+        *measure.graph_standardizer.standardize(*measure.graph_reader.string2graph(s1)),
+        *measure.graph_standardizer.standardize(*measure.graph_reader.string2graph(s2))
     )[:2]
 )
 
 # 5) for simplicity, treat each matched triple as an “edge” match
 #    you could also retrieve edge alignments similarly via the aligner internals.
-common_nodes = [[n1, n2] for (n1,n2) in node_map]
+common_nodes = [[n1, n2] for (n1, n2) in node_map]
 # (You’ll need custom code to build common_edges in the same spirit.)
 
 out = {

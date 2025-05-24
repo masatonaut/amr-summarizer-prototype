@@ -1,5 +1,6 @@
 from penman import decode
 
+
 def extract_triples(amr_str: str) -> set[tuple]:
     """
     Parse an AMR in Penman format into a penman.Graph and
@@ -7,6 +8,7 @@ def extract_triples(amr_str: str) -> set[tuple]:
     """
     graph = decode(amr_str)
     return set(graph.triples)
+
 
 def smatch_f1(amr1: str, amr2: str) -> float:
     """
@@ -31,10 +33,9 @@ def smatch_f1(amr1: str, amr2: str) -> float:
         return 0.0
     return 2 * p * r / (p + r)
 
+
 def is_factually_consistent(
-    summary_amr: str,
-    source_amrs: list[str],
-    threshold: float = 0.8
+    summary_amr: str, source_amrs: list[str], threshold: float = 0.8
 ) -> tuple[bool, float]:
     """
     Binary consistency check: what fraction of summary triples

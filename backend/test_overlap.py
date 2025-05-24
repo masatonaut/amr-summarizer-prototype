@@ -1,5 +1,5 @@
-from amr2nx     import load_amr_graph
-from annotate   import annotate_overlap
+from amr2nx import load_amr_graph
+from annotate import annotate_overlap
 import json
 import networkx as nx
 
@@ -12,5 +12,7 @@ g2 = load_amr_graph(open("backend/sample2.amr").read())
 annotate_overlap(g1, g2, "backend/alignment.json")
 
 # 3) Print out which nodes/edges got marked overlap=True
-print("Graph1 overlap nodes:", [n for n,d in g1.nodes(data=True) if d["overlap"]])
-print("Graph1 overlap edges:",[(u,v) for u,v,d in g1.edges(data=True) if d["overlap"]])
+print("Graph1 overlap nodes:", [n for n, d in g1.nodes(data=True) if d["overlap"]])
+print(
+    "Graph1 overlap edges:", [(u, v) for u, v, d in g1.edges(data=True) if d["overlap"]]
+)

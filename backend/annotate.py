@@ -4,11 +4,7 @@ import json
 import networkx as nx
 
 
-def annotate_overlap(
-    G1: nx.DiGraph,
-    G2: nx.DiGraph,
-    alignment_path: str
-) -> None:
+def annotate_overlap(G1: nx.DiGraph, G2: nx.DiGraph, alignment_path: str) -> None:
     """
     Load alignment data from a JSON file and mark
     overlapping nodes/edges in G1 and G2.
