@@ -1,14 +1,9 @@
-import os, sys
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 import numpy as np
 import pytest
 
-from pipeline import segment_sentences
-from similarity import top_k_sentences
-from amr_parser import parse_amr
-
+from amrsummarizer.pipeline import segment_sentences
+from amrsummarizer.similarity import top_k_sentences
+from amrsummarizer.amr_parser import parse_amr
 
 def test_segment_sentences_basic():
     """

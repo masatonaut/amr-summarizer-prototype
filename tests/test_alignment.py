@@ -1,8 +1,7 @@
 from fastapi.testclient import TestClient
-from main import app
+from amrsummarizer.main import app
 
 client = TestClient(app)
-
 
 def test_process_article():
     response = client.post(
@@ -32,5 +31,7 @@ def test_process_amr():
     assert response.status_code == 200
     data = response.json()
     # Check that the response contains AMR graph keys
-    assert "summary_amr" in data
-    assert "top_sentence_amrs" in data
+    assert "consistency_score" in data
+    assert "is_consistent" in data
+    assert "summary_svg" in data
+
