@@ -62,7 +62,7 @@ AMR-SUMMARIZER-PROTOTYPE/
 - **Sentence Embedding Calculation**: Uses Sentence-BERT (or a similar model) to compute embeddings and select top sentences via cosine similarity.
 - **AMR Parsing & Visualization**: Generates AMR graphs and produces SVG images for display.
 - **AMR Alignment & Comparison**: Implements automated AMR alignment using SMATCH++ (via `smatch_ext.py`) to identify common nodes and edges.
-- **Overlap Visualization**: Custom scripts (`visualize_overlap.py`) display two AMR graphs side-by-side, highlighting commonalities based on SMATCH++ alignment.
+- **Overlap Visualization**: Custom scripts (`visualizer.py`) display two AMR graphs side-by-side, highlighting commonalities based on SMATCH++ alignment.
 - **GPU Acceleration & Memory Management**: The backend can leverage GPU(s) for faster model inference with memory management.
 - **Error Handling**: Robust error handling in both backend and frontend.
 - **Responsive UI**: Frontend uses Material-UI for a consistent, responsive design.
@@ -94,46 +94,191 @@ AMR-SUMMARIZER-PROTOTYPE/
 
 ---
 
-## Key Developed Tools & Usage
+## Quickstart Guide: Phase 1 → Phase 2 AMR Alignment & Visualization
 
-This section details the tools and functionalities developed through Phase 1 and Phase 2, and how team members can use them.
+Use this guide to take two AMR files, generate their SMATCH++ alignment, produce highlighted SVGs, and preview them in a static HTML viewer. Team members can follow these exact steps on any machine with Python 3.8+ and a virtualenv.
+
+### Prerequisites
+
+1.  **Clone & enter the repo**
+
+    ```bash
+    git clone [https://github.com/masatonaut/amr-summarizer-prototype.git](https://github.com/masatonaut/amr-summarizer-prototype.git)
+    cd amr-summarizer-prototype
+    ```
+
+    _([USER VERIFICATION: Confirm if the repository URL is correct.]_)
+
+2.  **Activate your virtual environment**
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+
+3.  **Install dependencies**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Download spaCy model**
+    ```bash
+    python -m spacy download en_core_web_sm
+    ```
+
+### AMR Sample Files
+
+By default, we include two sample AMR files under:
+`src/amrsummarizer/sample_amrs/`
+
+- `sample1.amr`
+- `sample2.amr`
+
+If you have additional AMR files to test, please place them in the same `src/amrsummarizer/sample_amrs/` directory.
+
+### Phase 1: Generate Alignment JSON
+
+Run the SMATCH++ alignment tool (`smatch_ext.py`) on your two AMRs. This script is assumed to be runnable and accept command-line arguments as shown.
+_(Run commands from the project root directory, e.g., `amr-summarizer-prototype/`)_
+
+```bash
+python src/amrsummarizer/smatch_ext.py \
+  --amr1 src/amrsummarizer/sample_amrs/sample1.amr \
+  --amr2 src/amrsummarizer/sample_amrs/sample2.amr \
+  --output src/amrsummarizer/alignment.json
+```
+
+**Output**: This will generate an `alignment.json` file in `src/amrsummarizer/` with a structure similar to:
+
+```json
+{
+  "common_nodes": [
+    ["m", "m"],
+    ["l", "l"],
+    ["w", "w"]
+  ],
+  "common_edges": [
+    [
+      ["m", "l", ":ARG0-of"],
+      ["m", "l", ":ARG0-of"]
+    ],
+    [
+      ["l", "w", ":ARG1"],
+      ["l", "w", ":ARG1"]
+    ]
+  ]
+}
+```
+
+### Phase 2: Visualize Overlap
+
+Generate two SVGs highlighting the overlap using the `visualizer.py` script and the `alignment.json` from the previous step.
+_(Run commands from the project root directory)_
+
+```bash
+python src/amrsummarizer/visualizer.py \
+  --amr1      src/amrsummarizer/sample_amrs/sample1.amr \
+  --amr2      src/amrsummarizer/sample_amrs/sample2.amr \
+  --alignment src/amrsummarizer/alignment.json \
+  --out1      src/amrsummarizer/sample1.svg \
+  --out2      src/amrsummarizer/sample2.svg
+```
+
+**Outputs**:
+
+- `src/amrsummarizer/sample1.svg`
+- `src/amrsummarizer/sample2.svg`
+
+In these SVGs, common nodes might appear in red/pink, and common edges in bold red (actual highlighting may vary based on `visualizer.py` implementation).
+
+### Preview with Static HTML Viewer
+
+To properly view the generated SVGs (especially if they have relative links or complex structures), serve the `viewer.html` and the SVGs over HTTP.
+
+1.  **Navigate to the directory containing `viewer.html` and the SVGs:**
+    ```bash
+    cd src/amrsummarizer
+    ```
+2.  **Start a simple Python HTTP server:**
+    ```bash
+    python -m http.server 8001
+    ```
+3.  **Open in your browser:**
+    Navigate to `http://localhost:8001/viewer.html`
+
+This should display `sample1.svg` and `sample2.svg` side-by-side with their overlaps highlighted.
+
+### Full Command Summary (End-to-End Workflow)
+
+```bash
+# (From project root)
+# Activate env & install (if not already done)
+# source venv/bin/activate
+# pip install -r requirements.txt
+# python -m spacy download en_core_web_sm
+
+# Phase 1: Generate alignment.json
+python src/amrsummarizer/smatch_ext.py \
+  --amr1 src/amrsummarizer/sample_amrs/sample1.amr \
+  --amr2 src/amrsummarizer/sample_amrs/sample2.amr \
+  --output src/amrsummarizer/alignment.json
+
+# Phase 2: Generate highlighted SVGs
+python src/amrsummarizer/visualizer.py \
+  --amr1      src/amrsummarizer/sample_amrs/sample1.amr \
+  --amr2      src/amrsummarizer/sample_amrs/sample2.amr \
+  --alignment src/amrsummarizer/alignment.json \
+  --out1      src/amrsummarizer/sample1.svg \
+  --out2      src/amrsummarizer/sample2.svg
+
+# Preview SVGs
+cd src/amrsummarizer
+python -m http.server 8001
+# Then open http://localhost:8001/viewer.html in your browser.
+# Remember to 'cd ..' back to the project root for other commands.
+```
+
+Now anyone on the team can reproduce the full Phase 1 → Phase 2 workflow end-to-end.
+
+---
+
+## Key Developed Tools & Usage (Further Details)
+
+This section provides more details on the individual tools. For a practical end-to-end example of `smatch_ext.py` (CLI) and `visualizer.py`, see the **Quickstart Guide** above.
 
 ### 1. AMR Alignment Engine (`smatch_ext.py`) - Phase 1
 
 This module provides the core logic for aligning two AMR graphs using an extended SMATCH++ approach to identify common nodes and edges.
 
 - **Location**: `src/amrsummarizer/smatch_ext.py`
-- **Primary Function**: `compare_amr(amr1_str: str, amr2_str: str) -> AlignmentData`
-  - (Note: `AlignmentData` is a placeholder for the actual return type, which should detail matched nodes/edges.)
-- **Programmatic Usage**: Import and use in other Python scripts for detailed AMR comparison.
+- **Primary Function (Programmatic Use)**: `compare_amr(amr1_str: str, amr2_str: str) -> AlignmentData`
 
-  ```python
-  from amrsummarizer.smatch_ext import compare_amr
+  - (Note: `AlignmentData` is a placeholder for the actual return type, which should detail matched nodes/edges as seen in the `alignment.json` example in the Quickstart.)
+  - **Example**:
 
-  amr_string_1 = "(a / apple)" # Example AMR string
-  amr_string_2 = "(b / big-apple)" # Example AMR string
+    ```python
+    from amrsummarizer.smatch_ext import compare_amr
 
-  alignment_results = compare_amr(amr_string_1, amr_string_2)
-  # Process alignment_results (e.g., print common_nodes, common_edges)
-  print(alignment_results)
-  ```
+    amr_string_1 = "(a / apple)" # Example AMR string
+    amr_string_2 = "(b / big-apple)" # Example AMR string
 
-- **Command-Line Interface (`amr-compare`)**: For quick comparison of AMR files directly from the terminal.
-  - **Purpose**: Allows developers to compare AMR files without writing Python scripts.
-  - **Command**: `[USER VERIFICATION: Please provide the exact command to run amr-compare. E.g., python -m amrsummarizer.smatch_ext file1.amr file2.amr or python path/to/amr-compare-cli.py file1.amr file2.amr]`
+    alignment_results = compare_amr(amr_string_1, amr_string_2)
+    # Process alignment_results
+    print(alignment_results)
+    ```
+
+- **Command-Line Interface**: See the **Quickstart Guide** for a detailed command-line example of using `smatch_ext.py` to generate an `alignment.json` file.
 - **FastAPI Endpoint (`/compare_amr`)**: Provides API access to the alignment engine.
   - (Details in the "API Endpoints" section below. `[USER VERIFICATION: Please confirm if this endpoint is implemented in main.py and update its specifications accordingly.]`)
 
-### 2. Overlap Visualization Script (`visualize_overlap.py`) - Phase 2
+### 2. Overlap Visualization Script (`visualizer.py`) - Phase 2
 
-This script generates a visual comparison of two AMR graphs, highlighting their overlapping sections based on the alignment from `smatch_ext.py`.
+This script generates a visual comparison of two AMR graphs, highlighting their overlapping sections based on a pre-computed alignment JSON file.
 
-- **Location**: `src/amrsummarizer/visualize_overlap.py` `[USER VERIFICATION: Please confirm if this script name is correct.]`
-- **Functionality**: Takes two AMR files (in Penman format) as input, uses `smatch_ext.py` to determine alignments, and then generates an SVG or HTML file showing both graphs side-by-side with common nodes/edges highlighted (e.g., common in red, unique in grey).
-- **Command-Line Usage**:
-  - **Command**: `[USER VERIFICATION: Please provide the exact command and options for visualize_overlap.py. E.g., python -m amrsummarizer.visualize_overlap amr1.penman amr2.penman -o comparison.svg]`
-  - **Input**: Paths to two AMR files (e.g., `.penman` or `.amr` format).
-  - **Output**: An SVG or HTML file that can be opened in a web browser.
+- **Location**: `src/amrsummarizer/visualizer.py`
+- **Functionality**: Takes two AMR files and an `alignment.json` (from `smatch_ext.py`) as input, and generates two SVG files with common nodes/edges highlighted.
+- **Command-Line Usage**: See the **Quickstart Guide** for a detailed command-line example. The output SVGs can be viewed using `viewer.html` as described in the Quickstart.
 
 ### 3. AMR to NetworkX Conversion (`amr2nx.py`) - Phase 0
 
@@ -159,22 +304,22 @@ A foundational module for converting Penman AMR graph objects into NetworkX grap
 
 ### Backend Setup
 
-1.  **Clone the Repository:**
+1.  **Clone the Repository:** (If not done in Quickstart)
     ```bash
-    git clone [https://github.com/masatonaut/amr-summarizer-prototype.git](https://github.com/masatonaut/amr-summarizer-prototype.git) # [USER VERIFICATION: Confirm if the repository URL is correct.]
+    git clone [https://github.com/masatonaut/amr-summarizer-prototype.git](https://github.com/masatonaut/amr-summarizer-prototype.git)
     cd amr-summarizer-prototype
     ```
-2.  **Set Up the Virtual Environment:**
+    _([USER VERIFICATION: Confirm if the repository URL is correct.]_)
+2.  **Set Up the Virtual Environment:** (If not done in Quickstart)
     ```bash
     python3 -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
-3.  **Install Dependencies:**
-    (Ensure `requirements.txt` is in the project root)
+3.  **Install Dependencies:** (If not done in Quickstart)
     ```bash
     pip install -r requirements.txt
     ```
-    Make sure to download the required spaCy model:
+    Make sure to download the required spaCy model (if not done in Quickstart):
     ```bash
     python -m spacy download en_core_web_sm
     ```
