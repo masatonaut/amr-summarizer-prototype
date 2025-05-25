@@ -2,12 +2,12 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Dict
 
-from models import TextInput
-from pipeline import segment_sentences
-from embeddings import get_embeddings
-from similarity import top_k_sentences
-from amr_parser import parse_amr, amr_to_svg
-from metrics import is_factually_consistent
+from .models import TextInput
+from .pipeline import segment_sentences
+from .embeddings import get_embeddings
+from .similarity import top_k_sentences
+from .amr_parser import parse_amr, amr_to_svg
+from .metrics import is_factually_consistent
 
 app = FastAPI()
 

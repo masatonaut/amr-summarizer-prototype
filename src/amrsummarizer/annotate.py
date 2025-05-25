@@ -1,5 +1,3 @@
-# backend/annotate.py
-
 import json
 import networkx as nx
 

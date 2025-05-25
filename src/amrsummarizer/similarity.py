@@ -1,7 +1,6 @@
 import numpy as np
 from numpy.linalg import norm
 
-
 def cosine_similarity(vector1, vector2):
     """
     Compute cosine similarity between two vectors.

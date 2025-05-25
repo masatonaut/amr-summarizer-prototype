@@ -1,4 +1,4 @@
-from metrics import smatch_f1, is_factually_consistent
+from amrsummarizer.metrics import smatch_f1, is_factually_consistent
 
 # A minimal AMR string for testing
 SAME_AMR = """
