@@ -10,31 +10,34 @@ def render_graph(G, output_path):
     to an SVG file at output_path.
     """
     p = to_pydot(G)
-    # style nodes
-    for node in p.get_nodes():
-        name = node.get_name().strip('"')
+    for node_dot in p.get_nodes():
+        name = node_dot.get_name().strip('"')
+        if name not in G.nodes:
+            continue
         attrs = G.nodes[name]
         if attrs.get("overlap", False):
-            node.set_color("red")
-            node.set_style("filled")
-            node.set_fillcolor("pink")
+            node_dot.set_color("red")
+            node_dot.set_style("filled")
+            node_dot.set_fillcolor("pink")
         else:
-            node.set_color("grey")
-    # style edges
-    for edge in p.get_edges():
-        src = edge.get_source().strip('"')
-        dst = edge.get_destination().strip('"')
-        eattr = G.edges[src, dst]
-        if eattr.get("overlap", False):
-            edge.set_color("red")
-            edge.set_penwidth("2")
+            node_dot.set_color("grey")
+    for edge_dot in p.get_edges():
+        src = edge_dot.get_source().strip('"')
+        dst = edge_dot.get_destination().strip('"')
+
+        if not G.has_edge(src, dst):
+            continue
+        edge_attributes = G.edges[src, dst]
+
+        if edge_attributes.get("overlap", False):
+            edge_dot.set_color("red")
+            edge_dot.set_penwidth("2")
         else:
-            edge.set_color("grey")
-            edge.set_penwidth("1")
-    # produce SVG via Graphviz
-    svg_data = p.create(format="svg")
-    with open(output_path, "wb") as f:
-        f.write(svg_data)
+            edge_dot.set_color("grey")
+            edge_dot.set_penwidth("1")
+    svg_data_bytes = p.create(format="svg")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(svg_data_bytes.decode("utf-8"))
     print(f"Wrote {output_path}")
 
 
