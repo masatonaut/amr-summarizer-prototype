@@ -1,6 +1,3 @@
-Here’s the updated **README.md** reflecting Phases 1–2, actual file locations, and exact commands for team members to follow:
-
-```markdown
 # AMR Summarizer Prototype
 
 This repository contains a prototype for generating, comparing, and visualizing Abstract Meaning Representation (AMR) graphs from summary and article texts. The project integrates NLP processing with a FastAPI backend and a React frontend, aiming for a robust, user-friendly experience with comprehensive error handling and GPU-accelerated processing.
@@ -20,6 +17,7 @@ Phase 3 (UI integration) is planned next.
 ---
 
 ## Project Structure
+
 ```
 
 AMR-SUMMARIZER-PROTOTYPE/
@@ -47,7 +45,7 @@ AMR-SUMMARIZER-PROTOTYPE/
 ├── README.md
 └── requirements.txt
 
-````
+```
 
 ---
 
@@ -70,7 +68,7 @@ pip install -r requirements.txt
 
 # Download spaCy model
 python -m spacy download en_core_web_sm
-````
+```
 
 ### 2. Phase 1 – Generate Alignment JSON
 
