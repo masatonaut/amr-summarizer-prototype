@@ -1,4 +1,28 @@
-(m / man
-   :ARG0-of (l / love-01
-               :ARG1 (w / woman)
-               :time (n / now)))
+"# ::snt Police in Arkansas wish to unlock an iPhone and iPod belonging to two teenagers accused of killing a couple, according to the Associated Press (AP).
+(s / say-01
+      :ARG0 (p / publication
+            :name (n / name
+                  :op1 ""Associated""
+                  :op2 ""Press""))
+      :ARG1 (w / wish-01
+            :ARG0 (p2 / police
+                  :location (s2 / state
+                        :name (n2 / name
+                              :op1 ""Arkansas"")))
+            :ARG1 (u / unlock-01
+                  :ARG0 p2
+                  :ARG1 (a / and
+                        :op1 (p3 / phone
+                              :mod (c / country
+                                    :name (n3 / name
+                                          :op1 ""Australia"")))
+                        :op2 (p4 / product
+                              :name (n4 / name
+                                    :op1 ""iPod""))
+                        :ARG0-of (b / belong-01
+                              :ARG1 (t / teenager
+                                    :quant 2
+                                    :ARG1-of (a2 / accuse-01
+                                          :ARG2 (k / kill-01
+                                                :ARG0 t
+                                                :ARG1 (c2 / couple)))))))))"

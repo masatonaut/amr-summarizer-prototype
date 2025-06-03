@@ -1,109 +1,194 @@
 import json
+from typing import Dict, List, Set
 
-def _get_networkx_edge_representation(align_s, align_t, align_rel):
+
+def annotate_overlap(g1, g2, alignment_path: str):
     """
-    Convert an edge from alignment.json (surface form, e.g., with :ROLE-of)
-    to its expected representation in a NetworkX graph (canonical form, e.g., :ROLE with swapped s/t).
-    Returns (nx_source, nx_target, nx_relation_label).
-    This function makes assumptions about how amr2nx.py stores relations and handles inverse roles.
-    """
-    # Check if the relation is likely an inverse role like :ARG0-of
-    if isinstance(align_rel, str) and align_rel.endswith("-of") and \
-       align_rel.startswith(":") and len(align_rel) > (len("-of") + 1): # Ensure it's not just ":-of"
-        
-        direct_role_name = align_rel[:-len("-of")] # Removes "-of"
-        
-        if direct_role_name.startswith(":") and len(direct_role_name) > 1:
-            nx_relation = direct_role_name
-            nx_source = align_t 
-            nx_target = align_s 
-            return nx_source, nx_target, nx_relation
-
-    return align_s, align_t, align_rel
-
-
-def annotate_overlap(g1, g2, alignment_file):
-    """
-    Annotates nodes and edges in NetworkX graphs g1 and g2 with 'overlap':True
-    if they are found to be common based on the alignment_file.
-    Assumes g1 and g2 are NetworkX graphs (can be DiGraph or MultiDiGraph)
-    and that edge relation labels are stored in an attribute named 'role'
-    by the amr2nx.py script.
-    """
-    with open(alignment_file, 'r', encoding='utf-8') as f:
-        alignment = json.load(f)
-
-    # Initialize 'overlap' attribute to False for all nodes
-    for node_id in g1.nodes():
-        g1.nodes[node_id]['overlap'] = False
-    for node_id in g2.nodes():
-        g2.nodes[node_id]['overlap'] = False
-
-    # Initialize 'overlap' attribute to False for all edges
-    if g1.is_multigraph():
-        for u, v, key, data_dict in g1.edges(data=True, keys=True):
-            data_dict['overlap'] = False
-    else:
-        for u, v, data_dict in g1.edges(data=True):
-            data_dict['overlap'] = False
-
-    if g2.is_multigraph():
-        for u, v, key, data_dict in g2.edges(data=True, keys=True):
-            data_dict['overlap'] = False
-    else:
-        for u, v, data_dict in g2.edges(data=True):
-            data_dict['overlap'] = False
+    Annotate NetworkX graphs g1 and g2 with overlap and uncommon information
+    based on the alignment JSON file.
     
-    # Annotate common nodes
-    common_nodes_list = alignment.get('common_nodes', [])
-    for node_pair in common_nodes_list:
-        if len(node_pair) >= 2:
-            node1_align_var, node2_align_var = node_pair[0], node_pair[1]
-            if node1_align_var in g1.nodes:
-                g1.nodes[node1_align_var]['overlap'] = True
-            if node2_align_var in g2.nodes:
-                g2.nodes[node2_align_var]['overlap'] = True
-
-    # Annotate common edges
-    common_edges_list = alignment.get('common_edges', [])
-    for edge_pair_data in common_edges_list:
-        if len(edge_pair_data) >= 2:
-            edge_g1_align_data = edge_pair_data[0]
-            edge_g2_align_data = edge_pair_data[1]
-            
-            if len(edge_g1_align_data) == 3 and len(edge_g2_align_data) == 3:
-                s1_align, t1_align, r1_align_surface = edge_g1_align_data
-                s2_align, t2_align, r2_align_surface = edge_g2_align_data
-                
-                # Convert alignment representation to NetworkX representation
-                nx_s1, nx_t1, nx_r1 = _get_networkx_edge_representation(
-                    s1_align, t1_align, r1_align_surface
-                )
-                nx_s2, nx_t2, nx_r2 = _get_networkx_edge_representation(
-                    s2_align, t2_align, r2_align_surface
-                )
-                
-                # Mark edges as overlapping in both graphs
-                _mark_edge_overlap(g1, nx_s1, nx_t1, nx_r1)
-                _mark_edge_overlap(g2, nx_s2, nx_t2, nx_r2)
-
-
-def _mark_edge_overlap(graph, source, target, role):
+    Adds the following attributes to nodes and edges:
+    - 'overlap': True if the element is common between both graphs
+    - 'uncommon': True if the element is unique to this graph
     """
-    Mark an edge as overlapping in the given graph.
-    Handles both MultiDiGraph and DiGraph cases.
-    """
-    if not graph.has_edge(source, target):
-        return
+    # Load alignment data
+    with open(alignment_path, 'r', encoding='utf-8') as f:
+        alignment = json.load(f)
+    
+    # Extract alignment information
+    common_nodes = alignment.get('common_nodes', [])
+    common_edges = alignment.get('common_edges', [])
+    uncommon_nodes = alignment.get('uncommon_nodes', {})
+    uncommon_edges = alignment.get('uncommon_edges', {})
+    
+    # Convert to sets for faster lookup
+    common_nodes_g1: Set[str] = {pair[0] for pair in common_nodes}
+    common_nodes_g2: Set[str] = {pair[1] for pair in common_nodes}
+    
+    uncommon_nodes_g1: Set[str] = set(uncommon_nodes.get('amr1_only', []))
+    uncommon_nodes_g2: Set[str] = set(uncommon_nodes.get('amr2_only', []))
+    
+    # Convert edge format for lookup: [[src, tgt, role], ...] -> {(src, tgt, role), ...}
+    common_edges_g1: Set[tuple] = {(edge[0][0], edge[0][1], edge[0][2]) for edge in common_edges}
+    common_edges_g2: Set[tuple] = {(edge[1][0], edge[1][1], edge[1][2]) for edge in common_edges}
+    
+    uncommon_edges_g1: Set[tuple] = {(edge[0], edge[1], edge[2]) for edge in uncommon_edges.get('amr1_only', [])}
+    uncommon_edges_g2: Set[tuple] = {(edge[0], edge[1], edge[2]) for edge in uncommon_edges.get('amr2_only', [])}
+    
+    print(f"=== Annotation Debug ===")
+    print(f"G1 nodes: {list(g1.nodes())}")
+    print(f"G2 nodes: {list(g2.nodes())}")
+    print(f"Common nodes G1: {common_nodes_g1}")
+    print(f"Common nodes G2: {common_nodes_g2}")
+    print(f"Uncommon nodes G1: {uncommon_nodes_g1}")
+    print(f"Uncommon nodes G2: {uncommon_nodes_g2}")
+    
+    # Annotate nodes in g1
+    for node in g1.nodes():
+        if node in common_nodes_g1:
+            g1.nodes[node]['overlap'] = True
+            g1.nodes[node]['uncommon'] = False
+            print(f"G1 node '{node}' -> OVERLAP (red)")
+        elif node in uncommon_nodes_g1:
+            g1.nodes[node]['overlap'] = False
+            g1.nodes[node]['uncommon'] = True
+            print(f"G1 node '{node}' -> UNCOMMON (blue)")
+        else:
+            g1.nodes[node]['overlap'] = False
+            g1.nodes[node]['uncommon'] = False
+            print(f"G1 node '{node}' -> DEFAULT (grey)")
+    
+    # Annotate nodes in g2
+    for node in g2.nodes():
+        if node in common_nodes_g2:
+            g2.nodes[node]['overlap'] = True
+            g2.nodes[node]['uncommon'] = False
+            print(f"G2 node '{node}' -> OVERLAP (red)")
+        elif node in uncommon_nodes_g2:
+            g2.nodes[node]['overlap'] = False
+            g2.nodes[node]['uncommon'] = True
+            print(f"G2 node '{node}' -> UNCOMMON (blue)")
+        else:
+            g2.nodes[node]['overlap'] = False
+            g2.nodes[node]['uncommon'] = False
+            print(f"G2 node '{node}' -> DEFAULT (grey)")
+    
+    # Annotate edges in g1
+    print(f"\n=== G1 Edge Annotation ===")
+    for src, tgt in g1.edges():
+        # Get edge attributes to find the role
+        edge_attrs = g1.edges[src, tgt]
+        role = edge_attrs.get('role', edge_attrs.get('label', ''))
         
-    if graph.is_multigraph():
-        # For MultiDiGraph, find edges with matching role
-        edge_data_dict = graph.get_edge_data(source, target)
-        for key, data in edge_data_dict.items():
-            if data.get('role') == role:
-                data['overlap'] = True
-    else:
-        # For DiGraph, mark the single edge
-        edge_data = graph.get_edge_data(source, target)
-        if edge_data and edge_data.get('role') == role:
-            edge_data['overlap'] = True
+        edge_tuple = (src, tgt, role)
+        
+        if edge_tuple in common_edges_g1:
+            g1.edges[src, tgt]['overlap'] = True
+            g1.edges[src, tgt]['uncommon'] = False
+            print(f"G1 edge {edge_tuple} -> OVERLAP (red)")
+        elif edge_tuple in uncommon_edges_g1:
+            g1.edges[src, tgt]['overlap'] = False
+            g1.edges[src, tgt]['uncommon'] = True
+            print(f"G1 edge {edge_tuple} -> UNCOMMON (blue)")
+        else:
+            g1.edges[src, tgt]['overlap'] = False
+            g1.edges[src, tgt]['uncommon'] = False
+            print(f"G1 edge {edge_tuple} -> DEFAULT (grey)")
+    
+    # Annotate edges in g2
+    print(f"\n=== G2 Edge Annotation ===")
+    for src, tgt in g2.edges():
+        # Get edge attributes to find the role
+        edge_attrs = g2.edges[src, tgt]
+        role = edge_attrs.get('role', edge_attrs.get('label', ''))
+        
+        edge_tuple = (src, tgt, role)
+        
+        if edge_tuple in common_edges_g2:
+            g2.edges[src, tgt]['overlap'] = True
+            g2.edges[src, tgt]['uncommon'] = False
+            print(f"G2 edge {edge_tuple} -> OVERLAP (red)")
+        elif edge_tuple in uncommon_edges_g2:
+            g2.edges[src, tgt]['overlap'] = False
+            g2.edges[src, tgt]['uncommon'] = True
+            print(f"G2 edge {edge_tuple} -> UNCOMMON (blue)")
+        else:
+            g2.edges[src, tgt]['overlap'] = False
+            g2.edges[src, tgt]['uncommon'] = False
+            print(f"G2 edge {edge_tuple} -> DEFAULT (grey)")
+    
+    print(f"=== Annotation Complete ===\n")
+    
+    # Annotate edges in g1
+    for src, tgt in g1.edges():
+        # Get edge attributes to find the role
+        edge_attrs = g1.edges[src, tgt]
+        role = edge_attrs.get('role', edge_attrs.get('label', ''))
+        
+        edge_tuple = (src, tgt, role)
+        
+        if edge_tuple in common_edges_g1:
+            g1.edges[src, tgt]['overlap'] = True
+            g1.edges[src, tgt]['uncommon'] = False
+        elif edge_tuple in uncommon_edges_g1:
+            g1.edges[src, tgt]['overlap'] = False
+            g1.edges[src, tgt]['uncommon'] = True
+        else:
+            g1.edges[src, tgt]['overlap'] = False
+            g1.edges[src, tgt]['uncommon'] = False
+    
+    # Annotate edges in g2
+    for src, tgt in g2.edges():
+        # Get edge attributes to find the role
+        edge_attrs = g2.edges[src, tgt]
+        role = edge_attrs.get('role', edge_attrs.get('label', ''))
+        
+        edge_tuple = (src, tgt, role)
+        
+        if edge_tuple in common_edges_g2:
+            g2.edges[src, tgt]['overlap'] = True
+            g2.edges[src, tgt]['uncommon'] = False
+        elif edge_tuple in uncommon_edges_g2:
+            g2.edges[src, tgt]['overlap'] = False
+            g2.edges[src, tgt]['uncommon'] = True
+        else:
+            g2.edges[src, tgt]['overlap'] = False
+            g2.edges[src, tgt]['uncommon'] = False
+
+
+def print_annotation_summary(g1, g2, graph1_name="AMR1", graph2_name="AMR2"):
+    """
+    Print a summary of the annotation results for debugging purposes.
+    """
+    def count_attributes(graph, attr_name):
+        nodes_with_attr = sum(1 for _, attrs in graph.nodes(data=True) if attrs.get(attr_name, False))
+        edges_with_attr = sum(1 for _, _, attrs in graph.edges(data=True) if attrs.get(attr_name, False))
+        return nodes_with_attr, edges_with_attr
+    
+    print(f"\n=== Annotation Summary ===")
+    
+    # Count overlapping elements
+    g1_overlap_nodes, g1_overlap_edges = count_attributes(g1, 'overlap')
+    g2_overlap_nodes, g2_overlap_edges = count_attributes(g2, 'overlap')
+    
+    print(f"{graph1_name}: {g1_overlap_nodes} overlapping nodes, {g1_overlap_edges} overlapping edges")
+    print(f"{graph2_name}: {g2_overlap_nodes} overlapping nodes, {g2_overlap_edges} overlapping edges")
+    
+    # Count uncommon elements
+    g1_uncommon_nodes, g1_uncommon_edges = count_attributes(g1, 'uncommon')
+    g2_uncommon_nodes, g2_uncommon_edges = count_attributes(g2, 'uncommon')
+    
+    print(f"{graph1_name}: {g1_uncommon_nodes} unique nodes, {g1_uncommon_edges} unique edges")
+    print(f"{graph2_name}: {g2_uncommon_nodes} unique nodes, {g2_uncommon_edges} unique edges")
+
+
+def test_annotation():
+    """
+    Test function for debugging annotation logic.
+    """
+    # This would require actual graph objects to test
+    print("Annotation test function - requires graph objects for testing")
+
+
+if __name__ == "__main__":
+    test_annotation()
