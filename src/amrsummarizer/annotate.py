@@ -1,7 +1,6 @@
 import json
 from typing import Dict, List, Set
 
-
 def annotate_overlap(g1, g2, alignment_path: str):
     """
     Annotate NetworkX graphs g1 and g2 with overlap and uncommon information
@@ -118,43 +117,6 @@ def annotate_overlap(g1, g2, alignment_path: str):
             print(f"G2 edge {edge_tuple} -> DEFAULT (grey)")
     
     print(f"=== Annotation Complete ===\n")
-    
-    # Annotate edges in g1
-    for src, tgt in g1.edges():
-        # Get edge attributes to find the role
-        edge_attrs = g1.edges[src, tgt]
-        role = edge_attrs.get('role', edge_attrs.get('label', ''))
-        
-        edge_tuple = (src, tgt, role)
-        
-        if edge_tuple in common_edges_g1:
-            g1.edges[src, tgt]['overlap'] = True
-            g1.edges[src, tgt]['uncommon'] = False
-        elif edge_tuple in uncommon_edges_g1:
-            g1.edges[src, tgt]['overlap'] = False
-            g1.edges[src, tgt]['uncommon'] = True
-        else:
-            g1.edges[src, tgt]['overlap'] = False
-            g1.edges[src, tgt]['uncommon'] = False
-    
-    # Annotate edges in g2
-    for src, tgt in g2.edges():
-        # Get edge attributes to find the role
-        edge_attrs = g2.edges[src, tgt]
-        role = edge_attrs.get('role', edge_attrs.get('label', ''))
-        
-        edge_tuple = (src, tgt, role)
-        
-        if edge_tuple in common_edges_g2:
-            g2.edges[src, tgt]['overlap'] = True
-            g2.edges[src, tgt]['uncommon'] = False
-        elif edge_tuple in uncommon_edges_g2:
-            g2.edges[src, tgt]['overlap'] = False
-            g2.edges[src, tgt]['uncommon'] = True
-        else:
-            g2.edges[src, tgt]['overlap'] = False
-            g2.edges[src, tgt]['uncommon'] = False
-
 
 def print_annotation_summary(g1, g2, graph1_name="AMR1", graph2_name="AMR2"):
     """
@@ -181,14 +143,12 @@ def print_annotation_summary(g1, g2, graph1_name="AMR1", graph2_name="AMR2"):
     print(f"{graph1_name}: {g1_uncommon_nodes} unique nodes, {g1_uncommon_edges} unique edges")
     print(f"{graph2_name}: {g2_uncommon_nodes} unique nodes, {g2_uncommon_edges} unique edges")
 
-
 def test_annotation():
     """
     Test function for debugging annotation logic.
     """
     # This would require actual graph objects to test
     print("Annotation test function - requires graph objects for testing")
-
 
 if __name__ == "__main__":
     test_annotation()

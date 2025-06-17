@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg" style="background: white; border: 1px solid #ddd;">
+  <title>AMR Graph 1</title>
+  
+  <!-- Graph Title -->
+  <text x="600" y="30" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold">
+    AMR Graph 1 - Red: Common, Blue: Unique, Grey: Other
+  </text>
+  
+  <!-- Statistics -->
+  <text x="20" y="60" font-family="Arial" font-size="12" fill="#666">
+    Nodes: 41 | Overlap: 6 | Unique: 0 | Other: 35
+  </text>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="red"/>
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="blue"/>
+    </marker>
+    <marker id="arrowhead-grey" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="grey"/>
+    </marker>
+  </defs>
+  
+  <!-- Edges -->
+
+  <line x1="600" y1="80.0" x2="340.0" y2="172.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="522.0" y="102.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG0</text>
+
+  <line x1="600" y1="80.0" x2="860.0" y2="172.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="678.0" y="102.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <line x1="340.0" y1="172.5" x2="253.33333333333334" y2="265.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="314.0" y="195.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">name</text>
+
+  <line x1="253.33333333333334" y1="265.0" x2="210.0" y2="357.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="240.33333333333334" y="287.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op1</text>
+
+  <line x1="253.33333333333334" y1="265.0" x2="470.0" y2="357.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="318.33333333333337" y="287.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op2</text>
+
+  <line x1="860.0" y1="172.5" x2="600.0" y2="265.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="782.0" y="195.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG0</text>
+
+  <line x1="860.0" y1="172.5" x2="946.6666666666667" y2="265.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="886.0" y="195.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <line x1="600.0" y1="265.0" x2="730.0" y2="357.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="639.0" y="287.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">location</text>
+
+  <line x1="730.0" y1="357.5" x2="253.33333333333334" y2="450.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="587.0" y="380.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">name</text>
+
+  <line x1="253.33333333333334" y1="450.0" x2="253.33333333333334" y2="542.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="253.33333333333334" y="472.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op1</text>
+
+  <line x1="946.6666666666667" y1="265.0" x2="600.0" y2="265.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="842.6666666666667" y="260.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG0</text>
+
+  <line x1="946.6666666666667" y1="265.0" x2="990.0" y2="357.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="959.6666666666667" y="287.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <line x1="990.0" y1="357.5" x2="600.0" y2="450.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="873.0" y="380.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op1</text>
+
+  <line x1="990.0" y1="357.5" x2="946.6666666666667" y2="450.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="977.0" y="380.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op2</text>
+
+  <line x1="600.0" y1="450.0" x2="600.0" y2="542.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="600.0" y="472.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">mod</text>
+
+  <line x1="600.0" y1="542.5" x2="340.0" y2="635.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="522.0" y="565.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">name</text>
+
+  <line x1="340.0" y1="635.0" x2="600" y2="727.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="418.0" y="657.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op1</text>
+
+  <line x1="946.6666666666667" y1="450.0" x2="946.6666666666667" y2="542.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="946.6666666666667" y="472.75" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">name</text>
+
+  <line x1="946.6666666666667" y1="542.5" x2="860.0" y2="635.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="920.6666666666667" y="565.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">op1</text>
+
+  <line x1="623.6363636363636" y1="820.0" x2="990.0" y2="357.5" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="733.5454545454545" y="676.25" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG0</text>
+
+  <line x1="623.6363636363636" y1="820.0" x2="718.1818181818182" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="652.0" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <line x1="718.1818181818182" y1="820.0" x2="812.7272727272727" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="746.5454545454546" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">quant</text>
+
+  <line x1="860.0" y1="820.0" x2="718.1818181818182" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="817.4545454545455" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <line x1="860.0" y1="820.0" x2="954.5454545454545" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="888.3636363636364" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG2</text>
+
+  <line x1="954.5454545454545" y1="820.0" x2="718.1818181818182" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="883.6363636363636" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG0</text>
+
+  <line x1="954.5454545454545" y1="820.0" x2="1049.090909090909" y2="820.0" 
+        stroke="grey" stroke-width="1" 
+        marker-end="url(#arrowhead-grey)" opacity="0.6"/>
+  <text x="982.9090909090909" y="815.0" font-family="Arial" font-size="9" 
+        fill="grey" font-weight="bold" opacity="0.9">ARG1</text>
+
+  <!-- Nodes -->
+
+  <circle cx="600" cy="80.0" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="600" y="84.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">say-01</text>
+
+  <circle cx="103.63636363636364" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="103.63636363636364" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">say-01</text>
+
+  <circle cx="340.0" cy="172.5" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="340.0" y="176.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">publication</text>
+
+  <circle cx="150.9090909090909" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="150.9090909090909" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">publicat...</text>
+
+  <circle cx="253.33333333333334" cy="265.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="253.33333333333334" y="269.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">name</text>
+
+  <circle cx="198.1818181818182" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="198.1818181818182" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">name</text>
+
+  <rect x="162.0" y="342.5" width="96" height="30" 
+        fill="#f5f5f5" stroke="#888888" stroke-width="1" rx="8"/>
+  <text x="210.0" y="361.5" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">Associated</text>
+
+  <rect x="440.0" y="342.5" width="60" height="30" 
+        fill="#f5f5f5" stroke="#888888" stroke-width="1" rx="8"/>
+  <text x="470.0" y="361.5" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">Press</text>
+
+  <circle cx="860.0" cy="172.5" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="860.0" y="176.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">wish-01</text>
+
+  <circle cx="245.45454545454547" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="245.45454545454547" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">wish-01</text>
+
+  <circle cx="600.0" cy="265.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="600.0" y="269.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">police</text>
+
+  <circle cx="292.72727272727275" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="292.72727272727275" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">police</text>
+
+  <circle cx="730.0" cy="357.5" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="730.0" y="361.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">state</text>
+
+  <circle cx="340.0" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="340.0" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">state</text>
+
+  <circle cx="253.33333333333334" cy="450.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="253.33333333333334" y="454.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">name</text>
+
+  <rect x="213.33333333333334" y="527.5" width="80" height="30" 
+        fill="#f5f5f5" stroke="#888888" stroke-width="1" rx="8"/>
+  <text x="253.33333333333334" y="546.5" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">Arkansas</text>
+
+  <circle cx="946.6666666666667" cy="265.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="946.6666666666667" y="269.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">unlock-01</text>
+
+  <circle cx="387.27272727272725" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="387.27272727272725" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">unlock-0...</text>
+
+  <circle cx="990.0" cy="357.5" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="990.0" y="361.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">and</text>
+
+  <circle cx="434.54545454545456" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="434.54545454545456" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">and</text>
+
+  <circle cx="600.0" cy="450.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="600.0" y="454.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">phone</text>
+
+  <circle cx="481.8181818181818" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="481.8181818181818" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">phone</text>
+
+  <circle cx="600.0" cy="542.5" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="600.0" y="546.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">country</text>
+
+  <circle cx="529.0909090909091" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="529.0909090909091" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">country</text>
+
+  <circle cx="340.0" cy="635.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="340.0" y="639.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">name</text>
+
+  <rect x="556" y="712.5" width="88" height="30" 
+        fill="#f5f5f5" stroke="#888888" stroke-width="1" rx="8"/>
+  <text x="600" y="731.5" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">Australia</text>
+
+  <circle cx="946.6666666666667" cy="450.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="946.6666666666667" y="454.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">product</text>
+
+  <circle cx="576.3636363636364" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="576.3636363636364" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">product</text>
+
+  <circle cx="946.6666666666667" cy="542.5" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="946.6666666666667" y="546.5" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">name</text>
+
+  <rect x="830.0" y="620.0" width="60" height="30" 
+        fill="#f5f5f5" stroke="#888888" stroke-width="1" rx="8"/>
+  <text x="860.0" y="639.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">iPod</text>
+
+  <circle cx="623.6363636363636" cy="820.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="623.6363636363636" y="824.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">belong-01</text>
+
+  <circle cx="670.9090909090909" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="670.9090909090909" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">belong-0...</text>
+
+  <circle cx="718.1818181818182" cy="820.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="718.1818181818182" y="824.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">teenager</text>
+
+  <circle cx="765.4545454545455" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="765.4545454545455" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">teenager</text>
+
+  <circle cx="812.7272727272727" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="812.7272727272727" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">2</text>
+
+  <circle cx="860.0" cy="820.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="860.0" y="824.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">accuse-01</text>
+
+  <circle cx="907.2727272727273" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="907.2727272727273" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">accuse-0...</text>
+
+  <circle cx="954.5454545454545" cy="820.0" r="30" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="954.5454545454545" y="824.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">kill-01</text>
+
+  <circle cx="1001.8181818181819" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="1001.8181818181819" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">kill-01</text>
+
+  <circle cx="1049.090909090909" cy="820.0" r="30" 
+          fill="#ffdddd" stroke="#cc0000" stroke-width="3"/>
+  <text x="1049.090909090909" y="824.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold">couple</text>
+
+  <circle cx="1096.3636363636365" cy="820.0" r="20" 
+          fill="#f5f5f5" stroke="#888888" stroke-width="1"/>
+  <text x="1096.3636363636365" y="823.0" text-anchor="middle" 
+        font-family="Arial" font-size="10" font-weight="bold">couple</text>
+
+</svg>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg" style="background: white; border: 1px solid #ddd;">
+  <title>AMR Union Graph - Improved</title>
+  
+  <!-- Title and Statistics -->
+  <text x="600" y="30" text-anchor="middle" font-family="Arial" font-size="20" font-weight="bold">
+    AMR Union Graph - Intersection Highlighted
+  </text>
+  
+  <text x="20" y="60" font-family="Arial" font-size="12" fill="#666">
+    Intersection: 9 | AMR1 only: 1 | AMR2 only: 2 nodes | Common edges: 0
+  </text>
+  
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrow-red" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#E74C3C"/>
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#3498DB"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#27AE60"/>
+    </marker>
+  </defs>
+  
+  <!-- Edges -->
+
+  <line x1="600" y1="80.0" x2="600" y2="293.33333333333337" 
+        stroke="#3498DB" stroke-width="2" marker-end="url(#arrow-blue)" opacity="0.8"/>
+  <text x="600.0" y="181.66666666666669" 
+        font-family="Arial" font-size="9" fill="#3498DB" font-weight="bold" text-anchor="middle">ARG1</text>
+
+  <line x1="600" y1="293.33333333333337" x2="600" y2="506.6666666666667" 
+        stroke="#27AE60" stroke-width="2" marker-end="url(#arrow-green)" opacity="0.8"/>
+  <text x="600.0" y="395.0" 
+        font-family="Arial" font-size="9" fill="#27AE60" font-weight="bold" text-anchor="middle">mod</text>
+
+  <!-- Nodes -->
+
+  <circle cx="600" cy="506.6666666666667" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="600" y="510.6666666666667" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">and</text>
+
+  <circle cx="137.77777777777777" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="137.77777777777777" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">country</text>
+
+  <circle cx="253.33333333333334" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="253.33333333333334" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">couple</text>
+
+  <circle cx="368.8888888888889" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="368.8888888888889" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">d</text>
+
+  <circle cx="484.44444444444446" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="484.44444444444446" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">e</text>
+
+  <circle cx="600.0" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="600.0" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">r</text>
+
+  <circle cx="600" cy="80.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="600" y="84.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">say-01</text>
+
+  <circle cx="715.5555555555555" cy="720.0" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="715.5555555555555" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">state</text>
+
+  <circle cx="600" cy="293.33333333333337" r="25" 
+          fill="#FF6B6B" stroke="#E74C3C" stroke-width="3"/>
+
+  <text x="600" y="297.33333333333337" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">wish-01</text>
+
+  <circle cx="831.1111111111111" cy="720.0" r="25" 
+          fill="#74C0FC" stroke="#3498DB" stroke-width="2"/>
+
+  <text x="831.1111111111111" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">c3</text>
+
+  <circle cx="946.6666666666666" cy="720.0" r="25" 
+          fill="#8CE99A" stroke="#27AE60" stroke-width="2"/>
+
+  <text x="946.6666666666666" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">m</text>
+
+  <circle cx="1062.2222222222222" cy="720.0" r="25" 
+          fill="#8CE99A" stroke="#27AE60" stroke-width="2"/>
+
+  <text x="1062.2222222222222" y="724.0" text-anchor="middle" 
+        font-family="Arial" font-size="11" font-weight="bold" fill="white">s3</text>
+
+</svg>

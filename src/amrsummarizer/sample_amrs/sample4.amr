@@ -1,0 +1,15 @@
+# ::snt The organization plans to create solar energy systems and help people save money.
+(p / plan-01
+      :ARG0 (o / organization)
+      :ARG1 (a / and
+            :op1 (c / create-01
+                  :ARG0 o
+                  :ARG1 (s / system
+                        :mod (e / energy
+                              :mod (s2 / solar))))
+            :op2 (h / help-01
+                  :ARG0 o
+                  :ARG1 (p2 / person)
+                  :ARG2 (s3 / save-01
+                         :ARG0 p2
+                         :ARG1 (m / money)))))

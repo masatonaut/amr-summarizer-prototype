@@ -1,3 +1,13 @@
-(m / man
-   :ARG0-of (l / love-01
-               :ARG1 (d / dog)))
+# ::snt The company wants to develop solar energy systems and reduce costs for customers.
+(w / want-01
+      :ARG0 (c / company)
+      :ARG1 (a / and
+            :op1 (d / develop-01
+                  :ARG0 c
+                  :ARG1 (s / system
+                        :mod (e / energy
+                              :mod (s2 / solar))))
+            :op2 (r / reduce-01
+                  :ARG0 c
+                  :ARG1 (c2 / cost)
+                  :beneficiary (c3 / customer))))
