@@ -1,5 +1,19 @@
 # AMR Summarizer Prototype
 
+> **Thesis context** — This is the software prototype behind my BSc thesis
+> **"Factual Consistency Evaluation Using AMR-Based Error Detection"** (Eötvös Loránd University, Faculty of Informatics, 2025;
+> supervisors: Dr. Khawla Bouafia, Judit Ács / HUN-REN SZTAKI).
+>
+> **What it does:** detects factual errors in AI-generated (abstractive) summaries by parsing both the source article and the
+> summary into **Abstract Meaning Representation (AMR)** graphs and aligning them (SMATCH-style graph comparison +
+> Sentence-BERT sentence selection), returning a binary consistency verdict with visualized AMR graphs.
+>
+> Same research context as my co-authored paper *"Enhancing AMR Parsing with Group Relative Policy Optimization"*
+> (XLLM Workshop @ ACL 2025 — my contribution there: dataset construction & evaluation).
+>
+> Status: research prototype (2025). Kept public as the reference implementation for the thesis.
+
+
 This repository contains a prototype for generating, comparing, and visualizing Abstract Meaning Representation (AMR) graphs from summary and article texts. The project integrates NLP processing with a FastAPI backend and a React frontend, aiming for a robust, user-friendly experience with comprehensive error handling and GPU-accelerated processing.
 
 ---
