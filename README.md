@@ -26,7 +26,21 @@ The project enables users to input a summary and an article, processes these tex
 - **Phase 1**: SMATCH++-based alignment engine (`smatch_ext.py`)
 - **Phase 2**: Overlap visualization (`visualizer.py` + `viewer.html`)
 
-Phase 3 (UI integration) is planned next.
+Phase 3 (UI integration) was not implemented; see *Current status* below.
+
+---
+
+## Key technical features
+
+- **AMR parsing** of both article and summary into Penman graphs (`amrlib`), rendered to SVG via Graphviz.
+- **Sentence selection** with Sentence-BERT embeddings and cosine similarity, so each summary sentence is compared against its most relevant source sentences rather than the whole article.
+- **Graph alignment** using a SMATCH++-style node/edge matcher (`smatch_ext.py`) that reports the common subgraph between two AMRs.
+- **Overlap visualization** (`visualizer.py`) that renders the two graphs side by side with shared nodes and edges highlighted.
+- **HTTP API** exposing the pipeline through FastAPI with Pydantic request/response models.
+
+## Stack
+
+Python · FastAPI · Pydantic · amrlib · Penman · SMATCH++ · NetworkX · Sentence-BERT · spaCy · Graphviz · pytest · React
 
 ---
 
@@ -190,7 +204,13 @@ PYTHONPATH=./src pytest -vv
 
 ---
 
-## Next Steps (Phase 3)
+## Current status
 
-- Build a prototype web UI (Flask/Django + React+D3) to interactively explore overlaps and differences.
-- Integrate with annotation tools or embed controls for clicking nodes & navigating non-overlap sections.
+Research prototype, completed in 2025 alongside the thesis and no longer under active
+development. Phases 0-2 (AMR utilities, SMATCH++ alignment, overlap visualization) are
+implemented and covered by the test suite. Phase 3 was scoped but never built:
+
+- An interactive web UI for exploring overlaps and differences node by node.
+- Integration with annotation tooling for navigating non-overlapping sections.
+
+The repository is kept public as the reference implementation for the thesis.
